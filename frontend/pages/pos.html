@@ -1,0 +1,318 @@
+<!DOCTYPE html>
+<html lang="ru">
+
+<head>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+
+<title>POS Terminal</title>
+
+<link rel="stylesheet" href="../css/core.css">
+<link rel="stylesheet" href="../css/layout.css">
+<link rel="stylesheet" href="../css/components.css">
+
+</head>
+
+<body>
+
+<header class="topbar">
+
+<div class="brand">
+POS Terminal
+</div>
+
+<nav class="nav">
+
+<a href="../index.html">Dashboard</a>
+
+<a href="kitchen.html">Kitchen</a>
+
+<a href="admin.html">Admin</a>
+
+<a href="reports.html">Reports</a>
+
+</nav>
+
+</header>
+
+
+<main class="pos-layout">
+
+<!-- LEFT SIDE -->
+<section>
+
+<div class="card">
+
+<h2>Tables</h2>
+
+<div id="tables" class="table-map"></div>
+
+</div>
+
+<div class="card mt-lg">
+
+<h2>Menu</h2>
+
+<div id="menu"></div>
+
+</div>
+
+</section>
+
+
+<!-- RIGHT SIDE -->
+<section class="order-panel">
+
+<h2>Order</h2>
+
+<div id="orderInfo" class="muted small"></div>
+
+<div id="orderItems" class="order-items"></div>
+
+<div class="flex-between mt">
+
+<div>
+Subtotal
+</div>
+
+<div id="subtotal">
+0
+</div>
+
+</div>
+
+<div class="flex-between">
+
+<div>
+Tax
+</div>
+
+<div id="tax">
+0
+</div>
+
+</div>
+
+<div class="flex-between">
+
+<div>
+Tips
+</div>
+
+<div id="tips">
+0
+</div>
+
+</div>
+
+<hr>
+
+<div class="flex-between bold">
+
+<div>
+Total
+</div>
+
+<div id="total">
+0
+</div>
+
+</div>
+
+<div class="mt-lg flex gap">
+
+<button id="sendKitchen" class="btn">
+Send to kitchen
+</button>
+
+<button id="payCash" class="btn-success btn">
+Cash
+</button>
+
+<button id="payCard" class="btn">
+Card
+</button>
+
+</div>
+
+</section>
+
+</main>
+
+
+<div class="toast-container" id="toasts"></div>
+
+
+<script type="module">
+
+import {initApp} from "../js/core/app.js"
+
+import {Store} from "../js/core/store.js"
+
+import {
+openTable,
+addItem,
+sendToKitchen,
+pay,
+getCurrentOrder
+}
+from "../js/modules/pos/pos.controller.js"
+
+import {currency} from "../js/utils/format.js"
+
+initApp()
+
+/* =================================
+   RENDER LOOP
+================================= */
+
+Store.subscribe(render)
+
+function render(){
+
+renderTables()
+
+renderMenu()
+
+renderOrder()
+
+}
+
+/* =================================
+   TABLES
+================================= */
+
+function renderTables(){
+
+const tables = Store.get("tables")
+
+const el = document.getElementById("tables")
+
+el.innerHTML=""
+
+tables.forEach(t=>{
+
+const div=document.createElement("div")
+
+div.className="table-card " + (t.status==="busy"?"busy":"free")
+
+div.innerHTML = t.name
+
+div.onclick=()=>openTable(t.id)
+
+el.appendChild(div)
+
+})
+
+}
+
+/* =================================
+   MENU
+================================= */
+
+function renderMenu(){
+
+const menu = Store.get("menu")
+
+const el = document.getElementById("menu")
+
+el.innerHTML=""
+
+menu.forEach(item=>{
+
+const row=document.createElement("div")
+
+row.className="menu-button"
+
+row.innerHTML=`
+<div>
+${item.name}
+</div>
+<div>
+€${item.price}
+</div>
+`
+
+row.onclick=()=>addItem(item)
+
+el.appendChild(row)
+
+})
+
+}
+
+/* =================================
+   ORDER
+================================= */
+
+function renderOrder(){
+
+const order = getCurrentOrder()
+
+const itemsEl = document.getElementById("orderItems")
+
+if(!order){
+
+itemsEl.innerHTML="No order"
+
+return
+
+}
+
+itemsEl.innerHTML=""
+
+order.items.forEach(i=>{
+
+const row=document.createElement("div")
+
+row.className="order-item"
+
+row.innerHTML=`
+<div>
+${i.name} x${i.qty}
+</div>
+<div>
+€${(i.price*i.qty).toFixed(2)}
+</div>
+`
+
+itemsEl.appendChild(row)
+
+})
+
+document.getElementById("subtotal").innerText=
+currency(order.subtotal)
+
+document.getElementById("tax").innerText=
+currency(order.tax)
+
+document.getElementById("tips").innerText=
+currency(order.tips)
+
+document.getElementById("total").innerText=
+currency(order.total)
+
+}
+
+/* =================================
+   BUTTONS
+================================= */
+
+document
+.getElementById("sendKitchen")
+.onclick=sendToKitchen
+
+document
+.getElementById("payCash")
+.onclick=()=>pay("cash")
+
+document
+.getElementById("payCard")
+.onclick=()=>pay("card")
+
+</script>
+
+</body>
+
+</html>
