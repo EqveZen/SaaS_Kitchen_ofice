@@ -1,0 +1,441 @@
+/* =========================
+   TOPBAR
+========================= */
+
+.topbar{
+
+height:60px;
+
+display:flex;
+
+align-items:center;
+
+justify-content:space-between;
+
+padding:0 20px;
+
+background:#0b1220;
+
+border-bottom:1px solid var(--border);
+
+}
+
+.brand{
+
+font-weight:700;
+
+font-size:18px;
+
+letter-spacing:0.5px;
+
+}
+
+/* =========================
+   NAVIGATION
+========================= */
+
+.nav{
+
+display:flex;
+
+gap:14px;
+
+}
+
+.nav a{
+
+padding:6px 10px;
+
+border-radius:6px;
+
+transition:0.2s;
+
+}
+
+.nav a:hover{
+
+background:rgba(255,255,255,0.05);
+
+}
+
+/* =========================
+   USER PANEL
+========================= */
+
+.user{
+
+display:flex;
+
+align-items:center;
+
+gap:10px;
+
+}
+
+/* =========================
+   DASHBOARD
+========================= */
+
+.dashboard{
+
+padding:30px;
+
+max-width:1200px;
+
+margin:auto;
+
+}
+
+.welcome{
+
+margin-bottom:30px;
+
+}
+
+.modules{
+
+display:grid;
+
+grid-template-columns:repeat(4,1fr);
+
+gap:20px;
+
+}
+
+.moduleCard{
+
+display:block;
+
+background:var(--bg-dark);
+
+padding:20px;
+
+border-radius:var(--radius);
+
+border:1px solid var(--border);
+
+transition:0.2s;
+
+}
+
+.moduleCard:hover{
+
+border-color:var(--accent);
+
+transform:translateY(-3px);
+
+}
+
+/* =========================
+   POS LAYOUT
+========================= */
+
+.pos-layout{
+
+display:grid;
+
+grid-template-columns:1fr 420px;
+
+gap:20px;
+
+padding:20px;
+
+height:calc(100vh - 60px);
+
+}
+
+/* =========================
+   TABLE MAP
+========================= */
+
+.table-map{
+
+display:grid;
+
+grid-template-columns:repeat(4,1fr);
+
+gap:12px;
+
+}
+
+.table{
+
+background:var(--bg-dark);
+
+border:1px solid var(--border);
+
+border-radius:8px;
+
+padding:14px;
+
+text-align:center;
+
+cursor:pointer;
+
+transition:0.2s;
+
+}
+
+.table:hover{
+
+border-color:var(--accent);
+
+}
+
+.table.busy{
+
+border-left:4px solid var(--accent);
+
+}
+
+.table.free{
+
+opacity:0.7;
+
+}
+
+/* =========================
+   ORDER PANEL
+========================= */
+
+.order-panel{
+
+display:flex;
+
+flex-direction:column;
+
+gap:10px;
+
+background:var(--bg-dark);
+
+padding:16px;
+
+border-radius:var(--radius);
+
+border:1px solid var(--border);
+
+}
+
+.order-items{
+
+flex:1;
+
+overflow:auto;
+
+}
+
+.order-row{
+
+display:flex;
+
+justify-content:space-between;
+
+align-items:center;
+
+padding:8px;
+
+border-bottom:1px solid var(--border);
+
+}
+
+/* =========================
+   MENU PANEL
+========================= */
+
+.menu-panel{
+
+background:var(--bg-dark);
+
+border:1px solid var(--border);
+
+border-radius:var(--radius);
+
+padding:16px;
+
+overflow:auto;
+
+}
+
+.menu-section{
+
+margin-bottom:20px;
+
+}
+
+.menu-item{
+
+display:flex;
+
+justify-content:space-between;
+
+align-items:center;
+
+padding:8px;
+
+border-radius:6px;
+
+cursor:pointer;
+
+background:rgba(255,255,255,0.02);
+
+margin-bottom:6px;
+
+}
+
+.menu-item:hover{
+
+background:rgba(255,255,255,0.05);
+
+}
+
+/* =========================
+   KITCHEN LAYOUT
+========================= */
+
+.kitchen-layout{
+
+display:grid;
+
+grid-template-columns:1fr 1fr;
+
+gap:20px;
+
+padding:20px;
+
+}
+
+.kitchen-column{
+
+background:var(--bg-dark);
+
+padding:16px;
+
+border-radius:var(--radius);
+
+border:1px solid var(--border);
+
+}
+
+.kitchen-order{
+
+background:#10192b;
+
+border:1px solid var(--border);
+
+border-radius:8px;
+
+padding:12px;
+
+margin-bottom:10px;
+
+}
+
+/* =========================
+   ADMIN LAYOUT
+========================= */
+
+.admin-layout{
+
+display:grid;
+
+grid-template-columns:1fr 320px;
+
+gap:20px;
+
+padding:20px;
+
+}
+
+.admin-sidebar{
+
+background:var(--bg-dark);
+
+border:1px solid var(--border);
+
+border-radius:var(--radius);
+
+padding:16px;
+
+}
+
+/* =========================
+   REPORTS LAYOUT
+========================= */
+
+.reports-layout{
+
+padding:20px;
+
+display:grid;
+
+grid-template-columns:repeat(3,1fr);
+
+gap:20px;
+
+}
+
+.metric-card{
+
+background:var(--bg-dark);
+
+padding:16px;
+
+border-radius:var(--radius);
+
+border:1px solid var(--border);
+
+}
+
+/* =========================
+   RESPONSIVE
+========================= */
+
+@media(max-width:1200px){
+
+.modules{
+
+grid-template-columns:repeat(2,1fr);
+
+}
+
+.pos-layout{
+
+grid-template-columns:1fr;
+
+}
+
+}
+
+@media(max-width:700px){
+
+.modules{
+
+grid-template-columns:1fr;
+
+}
+
+.table-map{
+
+grid-template-columns:repeat(2,1fr);
+
+}
+
+.kitchen-layout{
+
+grid-template-columns:1fr;
+
+}
+
+.admin-layout{
+
+grid-template-columns:1fr;
+
+}
+
+.reports-layout{
+
+grid-template-columns:1fr;
+
+}
+
+}
