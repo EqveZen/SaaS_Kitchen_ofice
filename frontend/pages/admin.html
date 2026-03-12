@@ -1,0 +1,371 @@
+<!DOCTYPE html>
+<html lang="ru">
+
+<head>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+
+<title>Admin Panel</title>
+
+<link rel="stylesheet" href="../css/core.css">
+<link rel="stylesheet" href="../css/layout.css">
+<link rel="stylesheet" href="../css/components.css">
+
+</head>
+
+<body>
+
+<header class="topbar">
+
+<div class="brand">
+Admin Panel
+</div>
+
+<nav class="nav">
+
+<a href="../index.html">Dashboard</a>
+<a href="pos.html">POS</a>
+<a href="kitchen.html">Kitchen</a>
+<a href="reports.html">Reports</a>
+
+</nav>
+
+</header>
+
+
+<main class="admin-layout">
+
+<!-- MAIN -->
+<section>
+
+<div class="card">
+
+<h2>Menu Editor</h2>
+
+<div class="grid grid-3 gap mt">
+
+<input id="itemName" placeholder="Item name">
+
+<input id="itemPrice" placeholder="Price" type="number">
+
+<input id="itemCategory" placeholder="Category">
+
+</div>
+
+<button id="addItem" class="btn mt">
+Add item
+</button>
+
+</div>
+
+
+<div class="card mt-lg">
+
+<h2>Menu Items</h2>
+
+<table>
+
+<thead>
+
+<tr>
+<th>Name</th>
+<th>Price</th>
+<th>Category</th>
+<th></th>
+</tr>
+
+</thead>
+
+<tbody id="menuTable"></tbody>
+
+</table>
+
+</div>
+
+</section>
+
+
+<!-- SIDEBAR -->
+<aside class="admin-sidebar">
+
+<h3>Categories</h3>
+
+<input id="categoryName" placeholder="New category">
+
+<button id="addCategory" class="btn mt">
+Add
+</button>
+
+<div id="categoryList" class="mt"></div>
+
+
+<hr class="mt-lg">
+
+
+<h3>Inventory</h3>
+
+<input id="invName" placeholder="Ingredient">
+
+<input id="invQty" placeholder="Qty" type="number">
+
+<button id="addInventory" class="btn mt">
+Add ingredient
+</button>
+
+<div id="inventoryList" class="mt"></div>
+
+</aside>
+
+</main>
+
+
+<script type="module">
+
+import {Store} from "../js/core/store.js"
+import {uid} from "../js/utils/uid.js"
+import {initApp} from "../js/core/app.js"
+
+initApp()
+
+Store.subscribe(render)
+
+/* ===============================
+   MENU ITEMS
+=============================== */
+
+function render(){
+
+renderMenu()
+
+renderCategories()
+
+renderInventory()
+
+}
+
+/* ===============================
+   MENU TABLE
+=============================== */
+
+function renderMenu(){
+
+const menu = Store.get("menu")
+
+const el = document.getElementById("menuTable")
+
+el.innerHTML=""
+
+menu.forEach(item=>{
+
+const tr=document.createElement("tr")
+
+tr.innerHTML=`
+
+<td>${item.name}</td>
+
+<td>€${item.price}</td>
+
+<td>${item.category}</td>
+
+<td>
+<button class="btn-danger btn-sm">
+Delete
+</button>
+</td>
+
+`
+
+tr.querySelector("button").onclick=()=>deleteItem(item.id)
+
+el.appendChild(tr)
+
+})
+
+}
+
+/* ===============================
+   ADD MENU ITEM
+=============================== */
+
+document
+.getElementById("addItem")
+.onclick=()=>{
+
+const name =
+document.getElementById("itemName").value
+
+const price =
+parseFloat(document.getElementById("itemPrice").value)
+
+const category =
+document.getElementById("itemCategory").value
+
+if(!name || !price) return
+
+const menu = Store.get("menu")
+
+menu.push({
+
+id:uid("menu"),
+
+name,
+
+price,
+
+category
+
+})
+
+Store.set("menu",menu)
+
+clearInputs()
+
+}
+
+/* ===============================
+   DELETE MENU ITEM
+=============================== */
+
+function deleteItem(id){
+
+let menu = Store.get("menu")
+
+menu = menu.filter(i=>i.id!==id)
+
+Store.set("menu",menu)
+
+}
+
+/* ===============================
+   CATEGORIES
+=============================== */
+
+document
+.getElementById("addCategory")
+.onclick=()=>{
+
+const name =
+document.getElementById("categoryName").value
+
+if(!name) return
+
+const categories = Store.get("categories")
+
+categories.push({
+id:uid("cat"),
+name
+})
+
+Store.set("categories",categories)
+
+document.getElementById("categoryName").value=""
+
+}
+
+/* ===============================
+   RENDER CATEGORIES
+=============================== */
+
+function renderCategories(){
+
+const categories = Store.get("categories")
+
+const el = document.getElementById("categoryList")
+
+el.innerHTML=""
+
+categories.forEach(c=>{
+
+const div=document.createElement("div")
+
+div.className="badge mt"
+
+div.innerText=c.name
+
+el.appendChild(div)
+
+})
+
+}
+
+/* ===============================
+   INVENTORY
+=============================== */
+
+document
+.getElementById("addInventory")
+.onclick=()=>{
+
+const name =
+document.getElementById("invName").value
+
+const qty =
+parseFloat(document.getElementById("invQty").value)
+
+if(!name) return
+
+const inventory = Store.get("inventory")
+
+inventory.push({
+
+id:uid("inv"),
+
+name,
+
+qty
+
+})
+
+Store.set("inventory",inventory)
+
+}
+
+/* ===============================
+   RENDER INVENTORY
+=============================== */
+
+function renderInventory(){
+
+const inv = Store.get("inventory")
+
+const el = document.getElementById("inventoryList")
+
+el.innerHTML=""
+
+inv.forEach(i=>{
+
+const div=document.createElement("div")
+
+div.className="flex-between mt"
+
+div.innerHTML=`
+
+<span>${i.name}</span>
+<span>${i.qty}</span>
+
+`
+
+el.appendChild(div)
+
+})
+
+}
+
+/* ===============================
+   CLEAR INPUTS
+=============================== */
+
+function clearInputs(){
+
+document.getElementById("itemName").value=""
+document.getElementById("itemPrice").value=""
+document.getElementById("itemCategory").value=""
+
+}
+
+</script>
+
+</body>
+
+</html>
