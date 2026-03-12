@@ -1,0 +1,379 @@
+/* =========================
+   CORE RESET
+========================= */
+
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+}
+
+html,body{
+height:100%;
+font-family:Inter,Segoe UI,Arial,sans-serif;
+background:#0f1724;
+color:#e6eef6;
+}
+
+/* =========================
+   VARIABLES
+========================= */
+
+:root{
+
+--bg:#0f1724;
+--bg-dark:#0b1220;
+
+--accent:#06b6d4;
+--accent2:#06d6a0;
+
+--border:rgba(255,255,255,0.06);
+
+--muted:#94a3b8;
+
+--danger:#ef4444;
+
+--radius:10px;
+
+--shadow:
+0 6px 18px rgba(0,0,0,0.4);
+
+}
+
+/* =========================
+   TYPOGRAPHY
+========================= */
+
+h1{
+font-size:32px;
+margin-bottom:10px;
+}
+
+h2{
+font-size:22px;
+margin-bottom:8px;
+}
+
+h3{
+font-size:18px;
+margin-bottom:6px;
+}
+
+p{
+color:var(--muted);
+line-height:1.5;
+}
+
+/* =========================
+   LINKS
+========================= */
+
+a{
+color:white;
+text-decoration:none;
+}
+
+a:hover{
+color:var(--accent);
+}
+
+/* =========================
+   SCROLLBAR
+========================= */
+
+::-webkit-scrollbar{
+width:8px;
+}
+
+::-webkit-scrollbar-track{
+background:#0b1220;
+}
+
+::-webkit-scrollbar-thumb{
+background:#243047;
+border-radius:10px;
+}
+
+::-webkit-scrollbar-thumb:hover{
+background:#2f3d5a;
+}
+
+/* =========================
+   CONTAINERS
+========================= */
+
+.container{
+width:100%;
+max-width:1400px;
+margin:auto;
+padding:20px;
+}
+
+/* =========================
+   FLEX UTILITIES
+========================= */
+
+.flex{
+display:flex;
+align-items:center;
+}
+
+.flex-between{
+display:flex;
+align-items:center;
+justify-content:space-between;
+}
+
+.flex-column{
+display:flex;
+flex-direction:column;
+}
+
+.gap-sm{
+gap:8px;
+}
+
+.gap{
+gap:16px;
+}
+
+.gap-lg{
+gap:24px;
+}
+
+/* =========================
+   GRID
+========================= */
+
+.grid{
+display:grid;
+}
+
+.grid-2{
+grid-template-columns:1fr 1fr;
+}
+
+.grid-3{
+grid-template-columns:repeat(3,1fr);
+}
+
+.grid-4{
+grid-template-columns:repeat(4,1fr);
+}
+
+/* =========================
+   TEXT UTILITIES
+========================= */
+
+.muted{
+color:var(--muted);
+}
+
+.small{
+font-size:13px;
+}
+
+.center{
+text-align:center;
+}
+
+.bold{
+font-weight:700;
+}
+
+/* =========================
+   SPACING
+========================= */
+
+.mt{
+margin-top:10px;
+}
+
+.mt-lg{
+margin-top:20px;
+}
+
+.mb{
+margin-bottom:10px;
+}
+
+.mb-lg{
+margin-bottom:20px;
+}
+
+/* =========================
+   BUTTONS
+========================= */
+
+button{
+cursor:pointer;
+font-family:inherit;
+}
+
+.btn{
+
+background:var(--accent);
+
+border:none;
+
+color:#022;
+
+padding:10px 14px;
+
+border-radius:8px;
+
+font-weight:600;
+
+transition:0.2s;
+
+}
+
+.btn:hover{
+opacity:0.9;
+}
+
+.btn-outline{
+
+background:transparent;
+
+border:1px solid var(--border);
+
+color:white;
+
+}
+
+.btn-danger{
+
+background:var(--danger);
+
+color:white;
+
+}
+
+/* =========================
+   CARDS
+========================= */
+
+.card{
+
+background:var(--bg-dark);
+
+padding:16px;
+
+border-radius:var(--radius);
+
+border:1px solid var(--border);
+
+box-shadow:var(--shadow);
+
+}
+
+/* =========================
+   INPUTS
+========================= */
+
+input,
+select,
+textarea{
+
+width:100%;
+
+background:#0b1220;
+
+border:1px solid var(--border);
+
+color:white;
+
+padding:10px;
+
+border-radius:6px;
+
+font-size:14px;
+
+}
+
+input:focus,
+select:focus,
+textarea:focus{
+
+outline:none;
+
+border-color:var(--accent);
+
+}
+
+/* =========================
+   TABLE
+========================= */
+
+table{
+
+width:100%;
+
+border-collapse:collapse;
+
+}
+
+th{
+
+text-align:left;
+
+padding:10px;
+
+font-size:13px;
+
+color:var(--muted);
+
+}
+
+td{
+
+padding:10px;
+
+border-top:1px solid var(--border);
+
+}
+
+/* =========================
+   TAGS
+========================= */
+
+.tag{
+
+padding:4px 8px;
+
+border-radius:6px;
+
+font-size:12px;
+
+background:#1c2536;
+
+}
+
+.tag-green{
+background:#064e3b;
+}
+
+.tag-red{
+background:#7f1d1d;
+}
+
+/* =========================
+   FOOTER
+========================= */
+
+.footer{
+
+margin-top:40px;
+
+padding:16px;
+
+text-align:center;
+
+font-size:13px;
+
+color:var(--muted);
+
+border-top:1px solid var(--border);
+
+}
