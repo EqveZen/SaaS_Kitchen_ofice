@@ -1,0 +1,255 @@
+<!DOCTYPE html>
+<html lang="ru">
+
+<head>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+
+<title>Kitchen Display</title>
+
+<link rel="stylesheet" href="../css/core.css">
+<link rel="stylesheet" href="../css/layout.css">
+<link rel="stylesheet" href="../css/components.css">
+
+</head>
+
+<body>
+
+<header class="topbar">
+
+<div class="brand">
+Kitchen Display
+</div>
+
+<nav class="nav">
+
+<a href="../index.html">Dashboard</a>
+<a href="pos.html">POS</a>
+<a href="admin.html">Admin</a>
+<a href="reports.html">Reports</a>
+
+</nav>
+
+</header>
+
+
+<main class="kitchen-layout">
+
+<!-- INCOMING -->
+<section class="kitchen-column">
+
+<h2>Incoming</h2>
+
+<div id="incomingOrders"></div>
+
+</section>
+
+
+<!-- COOKING -->
+<section class="kitchen-column">
+
+<h2>Cooking</h2>
+
+<div id="cookingOrders"></div>
+
+</section>
+
+
+<!-- READY -->
+<section class="kitchen-column">
+
+<h2>Ready</h2>
+
+<div id="readyOrders"></div>
+
+</section>
+
+</main>
+
+
+<script type="module">
+
+import {Store} from "../js/core/store.js"
+import {initApp} from "../js/core/app.js"
+import {time} from "../js/utils/format.js"
+import {notifyOrderStatus} from "../js/services/socket.js"
+
+initApp()
+
+Store.subscribe(renderKitchen)
+
+/* ===============================
+   RENDER
+=============================== */
+
+function renderKitchen(){
+
+renderIncoming()
+renderCooking()
+renderReady()
+
+}
+
+/* ===============================
+   INCOMING
+=============================== */
+
+function renderIncoming(){
+
+const orders = Store.get("orders")
+.filter(o=>o.status==="open")
+
+const el = document.getElementById("incomingOrders")
+
+el.innerHTML=""
+
+orders.forEach(o=>{
+
+el.appendChild(orderCard(o,"start"))
+
+})
+
+}
+
+/* ===============================
+   COOKING
+=============================== */
+
+function renderCooking(){
+
+const orders = Store.get("orders")
+.filter(o=>o.status==="cooking")
+
+const el = document.getElementById("cookingOrders")
+
+el.innerHTML=""
+
+orders.forEach(o=>{
+
+el.appendChild(orderCard(o,"ready"))
+
+})
+
+}
+
+/* ===============================
+   READY
+=============================== */
+
+function renderReady(){
+
+const orders = Store.get("orders")
+.filter(o=>o.status==="ready")
+
+const el = document.getElementById("readyOrders")
+
+el.innerHTML=""
+
+orders.forEach(o=>{
+
+el.appendChild(orderCard(o,"serve"))
+
+})
+
+}
+
+/* ===============================
+   ORDER CARD
+=============================== */
+
+function orderCard(order,action){
+
+const div = document.createElement("div")
+
+div.className="kitchen-ticket"
+
+const items = order.items
+.map(i=>`${i.name} x${i.qty}`)
+.join("<br>")
+
+let button=""
+
+if(action==="start"){
+
+button=`<button class="btn">Start</button>`
+
+}
+
+if(action==="ready"){
+
+button=`<button class="btn-success btn">Ready</button>`
+
+}
+
+if(action==="serve"){
+
+button=`<button class="btn">Serve</button>`
+
+}
+
+div.innerHTML=`
+
+<div class="kitchen-ticket-header">
+
+<div>
+<b>${order.number}</b>
+</div>
+
+<div class="muted small">
+${time(order.created)}
+</div>
+
+</div>
+
+<div class="kitchen-items">
+${items}
+</div>
+
+<div class="mt">
+${button}
+</div>
+
+`
+
+div.querySelector("button").onclick=()=>updateStatus(order,action)
+
+return div
+
+}
+
+/* ===============================
+   UPDATE STATUS
+=============================== */
+
+function updateStatus(order,action){
+
+if(action==="start"){
+
+order.status="cooking"
+
+}
+
+if(action==="ready"){
+
+order.status="ready"
+
+}
+
+if(action==="serve"){
+
+order.status="served"
+
+}
+
+notifyOrderStatus(order)
+
+Store.emit()
+
+}
+
+</script>
+
+</body>
+
+</html>
