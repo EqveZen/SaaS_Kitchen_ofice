@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="ru">
+
+<head>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+
+<title>SaaS POS</title>
+
+<link rel="stylesheet" href="css/core.css">
+<link rel="stylesheet" href="css/layout.css">
+<link rel="stylesheet" href="css/components.css">
+
+</head>
+
+<body>
+
+<header class="topbar">
+
+<div class="brand">
+SaaS POS
+</div>
+
+<nav class="nav">
+
+<a href="pages/pos.html">POS</a>
+
+<a href="pages/kitchen.html">Kitchen</a>
+
+<a href="pages/admin.html">Admin</a>
+
+<a href="pages/reports.html">Reports</a>
+
+</nav>
+
+<div class="user">
+
+<span id="userName">demo</span>
+
+<button id="logoutBtn">Logout</button>
+
+</div>
+
+</header>
+
+
+<main class="dashboard">
+
+<section class="welcome">
+
+<h1>Restaurant POS</h1>
+
+<p>
+Cloud POS system.
+Select module above.
+</p>
+
+</section>
+
+
+<section class="modules">
+
+<a class="moduleCard" href="pages/pos.html">
+<h2>POS Terminal</h2>
+<p>Take orders</p>
+</a>
+
+<a class="moduleCard" href="pages/kitchen.html">
+<h2>Kitchen Display</h2>
+<p>Incoming orders</p>
+</a>
+
+<a class="moduleCard" href="pages/admin.html">
+<h2>Admin Panel</h2>
+<p>Menu and settings</p>
+</a>
+
+<a class="moduleCard" href="pages/reports.html">
+<h2>Reports</h2>
+<p>Analytics</p>
+</a>
+
+</section>
+
+</main>
+
+
+<footer class="footer">
+
+POS SaaS Demo
+
+</footer>
+
+
+<script type="module">
+
+import {initApp} from "./js/core/app.js"
+import {logout} from "./js/services/auth.js"
+
+initApp()
+
+document
+.getElementById("logoutBtn")
+.onclick=logout
+
+</script>
+
+</body>
+
+</html>
